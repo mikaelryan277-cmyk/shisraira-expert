@@ -22,15 +22,14 @@ import {
 const WHATSAPP_URL = "https://wa.me/5586999732364?text=Olá%20doutora,%20vi%20sua%20página%20e%20queria%20entender%20melhor%20meu%20caso.";
 
 const results = [
-  "https://imgur.com/xIyFeYP",
-  "https://imgur.com/6kM1DAT",
-  "https://imgur.com/p4tLCsU",
-  "https://imgur.com/d3fx5nU",
-  "https://imgur.com/IZsvmWI",
-  "https://imgur.com/byl8yoH",
-  "https://imgur.com/KVUYbhd",
-  "https://imgur.com/9NFw8Vo",
-  "https://imgur.com/8ZuSxXo"
+  "https://i.imgur.com/xIyFeYP.jpg",
+  "https://i.imgur.com/6kM1DAT.jpg",
+  "https://i.imgur.com/p4tLCsU.jpg",
+  "https://i.imgur.com/d3fx5nU.jpg",
+  "https://i.imgur.com/IZsvmWI.jpg",
+  "https://i.imgur.com/byl8yoH.jpg",
+  "https://i.imgur.com/9NFw8Vo.jpg",
+  "https://i.imgur.com/8ZuSxXo.jpg"
 ];
 
 const painPoints = [
@@ -130,7 +129,7 @@ export default function App() {
           >
             <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-zinc-100">
               <img 
-                src="https://imgur.com/TVsRZ03" 
+                src="https://i.imgur.com/TVsRZ03.jpg" 
                 alt="Dra. Shisraira Lago" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -173,7 +172,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 aspect-square rounded-full overflow-hidden border-8 border-zinc-50 shadow-inner">
               <img 
-                src="https://imgur.com/soxBRGA" 
+                src="https://i.imgur.com/soxBRGA.jpg" 
                 alt="Dra. Shisraira Lago" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -294,7 +293,7 @@ export default function App() {
           <div className="grid grid-cols-2 gap-4 mb-12">
             <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100">
               <img 
-                src="https://imgur.com/soxBRGA" 
+                src="https://i.imgur.com/soxBRGA.jpg" 
                 alt="Atendimento" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -303,7 +302,7 @@ export default function App() {
             <div className="flex flex-col gap-4">
               <div className="aspect-square rounded-3xl overflow-hidden bg-zinc-100">
                 <img 
-                  src="https://imgur.com/TVsRZ03" 
+                  src="https://i.imgur.com/TVsRZ03.jpg" 
                   alt="Dra. Shisraira" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
