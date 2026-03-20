@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   MessageCircle, 
@@ -22,14 +22,14 @@ import {
 const WHATSAPP_URL = "https://wa.me/5586999732364?text=Olá%20doutora,%20vi%20sua%20página%20e%20queria%20entender%20melhor%20meu%20caso.";
 
 const results = [
-  "https://i.imgur.com/xIyFeYP.jpg",
-  "https://i.imgur.com/6kM1DAT.jpg",
-  "https://i.imgur.com/p4tLCsU.jpg",
-  "https://i.imgur.com/d3fx5nU.jpg",
-  "https://i.imgur.com/IZsvmWI.jpg",
-  "https://i.imgur.com/byl8yoH.jpg",
-  "https://i.imgur.com/9NFw8Vo.jpg",
-  "https://i.imgur.com/8ZuSxXo.jpg"
+  { url: "https://i.imgur.com/xIyFeYP.jpg", alt: "Resultado de reabilitação oral e clareamento dental" },
+  { url: "https://i.imgur.com/6kM1DAT.jpg", alt: "Transformação de sorriso com implantes dentários" },
+  { url: "https://i.imgur.com/p4tLCsU.jpg", alt: "Prótese sobre implante com aspecto natural" },
+  { url: "https://i.imgur.com/d3fx5nU.jpg", alt: "Resultado final de tratamento de estética dental" },
+  { url: "https://i.imgur.com/IZsvmWI.jpg", alt: "Sorriso renovado com facetas de porcelana" },
+  { url: "https://i.imgur.com/byl8yoH.jpg", alt: "Tratamento completo de reabilitação estética e funcional" },
+  { url: "https://i.imgur.com/9NFw8Vo.jpg", alt: "Antes e depois de implante dentário unitário" },
+  { url: "https://i.imgur.com/8ZuSxXo.jpg", alt: "Sorriso saudável após tratamento periodontal e estético" }
 ];
 
 const painPoints = [
@@ -54,11 +54,51 @@ const steps = [
   { number: "03", title: "Definimos o tratamento", desc: "Planejamos juntos o caminho para o seu novo sorriso." }
 ];
 
+const PulseButton = ({ children, className = "" }: { children: ReactNode, className?: string }) => (
+  <motion.a
+    href={WHATSAPP_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    animate={{ scale: [1, 1.02, 1] }}
+    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    className={`group relative inline-flex items-center justify-center py-4 px-8 bg-emerald-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all duration-300 active:scale-95 ${className}`}
+  >
+    {children}
+  </motion.a>
+);
+
 export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showFixedBtn, setShowFixedBtn] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowFixedBtn(window.scrollY > 600);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900">
+      {/* Fixed WhatsApp Button */}
+      <AnimatePresence>
+        {showFixedBtn && (
+          <motion.a
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.8 }}
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed bottom-6 right-6 z-40 p-4 bg-emerald-600 text-white rounded-full shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition-all active:scale-90"
+            aria-label="Falar com a Dra. Shisraira no WhatsApp"
+          >
+            <MessageCircle className="w-7 h-7" />
+          </motion.a>
+        )}
+      </AnimatePresence>
+
       {/* Lightbox */}
       <AnimatePresence>
         {selectedImage && (
@@ -72,6 +112,7 @@ export default function App() {
             <button 
               className="absolute top-6 right-6 p-2 text-white/70 hover:text-white transition-colors"
               onClick={() => setSelectedImage(null)}
+              aria-label="Fechar imagem"
             >
               <X className="w-8 h-8" />
             </button>
@@ -80,7 +121,7 @@ export default function App() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               src={selectedImage} 
-              alt="Resultado" 
+              alt="Resultado ampliado do tratamento dental" 
               className="max-w-full max-h-[80vh] rounded-lg shadow-2xl object-contain"
               referrerPolicy="no-referrer"
             />
@@ -103,19 +144,14 @@ export default function App() {
               Eu ajudo você a <span className="italic">voltar a sorrir</span> com segurança, mesmo que ache que não tem mais solução.
             </h1>
             <p className="text-lg text-zinc-600 mb-8 leading-relaxed">
-              Clareza, segurança e um atendimento humano focado em devolver sua autoestima através de implantes e reabilitação oral.
+              Clareza, segurança e um atendimento humano focado em devolver sua autoestima através de implantes e reabilitação oral em Parnaíba - PI.
             </p>
             
-            <a 
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center w-full py-4 px-8 bg-emerald-600 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all duration-300 active:scale-95"
-            >
+            <PulseButton className="w-full">
               <MessageCircle className="w-5 h-5 mr-2" />
               Falar no WhatsApp
               <ChevronRight className="w-4 h-4 ml-1 opacity-50 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </PulseButton>
             <p className="text-center mt-4 text-sm text-zinc-400">
               Resposta rápida • Atendimento direto
             </p>
@@ -130,7 +166,7 @@ export default function App() {
             <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-zinc-100">
               <img 
                 src="https://i.imgur.com/TVsRZ03.jpg" 
-                alt="Dra. Shisraira Lago" 
+                alt="Dra. Shisraira Lago sorrindo em seu consultório odontológico" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -173,8 +209,9 @@ export default function App() {
             <div className="w-full md:w-1/2 aspect-square rounded-full overflow-hidden border-8 border-zinc-50 shadow-inner">
               <img 
                 src="https://i.imgur.com/soxBRGA.jpg" 
-                alt="Dra. Shisraira Lago" 
+                alt="Retrato da Dra. Shisraira Lago, cirurgiã-dentista" 
                 className="w-full h-full object-cover"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -211,18 +248,19 @@ export default function App() {
           </div>
           
           <div className="grid grid-cols-2 gap-3">
-            {results.map((img, i) => (
+            {results.map((item, i) => (
               <motion.div 
                 key={i}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="aspect-square rounded-xl overflow-hidden cursor-pointer bg-zinc-800"
-                onClick={() => setSelectedImage(img)}
+                onClick={() => setSelectedImage(item.url)}
               >
                 <img 
-                  src={img} 
-                  alt={`Resultado ${i + 1}`} 
+                  src={item.url} 
+                  alt={item.alt} 
                   className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>
@@ -257,15 +295,10 @@ export default function App() {
         <div className="max-w-xl mx-auto bg-emerald-50 rounded-[2.5rem] p-10 text-center border border-emerald-100">
           <h2 className="text-2xl font-serif mb-4 text-emerald-900">Cada caso é único.</h2>
           <p className="text-emerald-700 mb-8">Fale comigo e entenda o que é melhor pra você.</p>
-          <a 
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center py-4 px-10 bg-emerald-600 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all active:scale-95"
-          >
+          <PulseButton>
             <MessageCircle className="w-5 h-5 mr-2" />
             Chamar no WhatsApp
-          </a>
+          </PulseButton>
         </div>
       </section>
 
@@ -276,7 +309,7 @@ export default function App() {
           <div className="space-y-12">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-6">
-                <span className="text-4xl font-serif italic text-zinc-200 shrink-0">{step.number}</span>
+                <span className="text-4xl font-serif italic text-zinc-200 shrink-0" aria-hidden="true">{step.number}</span>
                 <div>
                   <h3 className="text-xl font-serif mb-2">{step.title}</h3>
                   <p className="text-zinc-500">{step.desc}</p>
@@ -294,8 +327,9 @@ export default function App() {
             <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100">
               <img 
                 src="https://i.imgur.com/soxBRGA.jpg" 
-                alt="Atendimento" 
+                alt="Dra. Shisraira Lago realizando atendimento odontológico humanizado" 
                 className="w-full h-full object-cover"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -303,8 +337,9 @@ export default function App() {
               <div className="aspect-square rounded-3xl overflow-hidden bg-zinc-100">
                 <img 
                   src="https://i.imgur.com/TVsRZ03.jpg" 
-                  alt="Dra. Shisraira" 
+                  alt="Dra. Shisraira Lago em seu consultório" 
                   className="w-full h-full object-cover"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -332,22 +367,17 @@ export default function App() {
           <p className="text-zinc-400 mb-12 text-lg">
             Não deixe para depois a saúde e a beleza que você merece hoje.
           </p>
-          <a 
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center w-full py-5 px-10 bg-emerald-600 text-white text-lg font-bold rounded-2xl shadow-2xl shadow-emerald-900/50 hover:bg-emerald-700 transition-all active:scale-95"
-          >
+          <PulseButton className="w-full py-5 text-lg">
             <MessageCircle className="w-6 h-6 mr-3" />
             Falar com a dentista no WhatsApp
-          </a>
+          </PulseButton>
         </div>
       </section>
 
       {/* 10. RODAPÉ */}
       <footer className="py-12 px-6 border-t border-zinc-100 text-center">
         <div className="max-w-xl mx-auto">
-          <h3 className="text-xl font-serif mb-1">Shisraira Lago</h3>
+          <h2 className="text-xl font-serif mb-1">Shisraira Lago</h2>
           <p className="text-sm text-zinc-400 mb-4 uppercase tracking-widest">Cirurgiã-Dentista</p>
           <div className="flex items-center justify-center text-zinc-500 text-sm gap-2">
             <Stethoscope className="w-4 h-4" />
